@@ -1,0 +1,23 @@
+Metadata-Version: 1.1
+Name: geo
+Version: 0.1.0
+Summary: geo is an api to find geolocation information
+Home-page: http://github.com/heynemann/apis/
+Author: Bernardo Heynemann
+Author-email: heynemann@gmail.com
+License: MIT
+Description: 
+        geo is an api to find geolocation information
+        
+Keywords: geo
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7

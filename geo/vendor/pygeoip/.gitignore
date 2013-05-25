@@ -1,0 +1,15 @@
+*.kpf
+*env
+*.pyc
+*.egg-info
+*.dat
+*.pyc
+*.pyo
+*~
+*.swp
+*.egg-info
+.venv
+.DS_Store
+dist/
+.project
+.pydevproject

@@ -1,0 +1,3 @@
+[console_scripts]
+apis-geo = geo.server:main
+
