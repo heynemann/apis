@@ -30,7 +30,7 @@ class GeoHandler(BaseHandler):
         if geo.success:
             self.render_response(dumps(geo.as_dict()))
         else:
-            logging.warn('IP address: %s NOT FOUND' % ip_address)
+            logging.info('IP address: %s NOT FOUND' % ip_address)
             self.render_response('')
 
         self.finish()
