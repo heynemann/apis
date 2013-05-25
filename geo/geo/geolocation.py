@@ -17,6 +17,12 @@ class GeoHandler(BaseHandler):
 
     @tornado.web.asynchronous
     def get(self):
+        secret = self.request.headers.get('X-Mashape-Proxy-Secret', None)
+        if not secret or secret != self.application.config.MASHAPE_SECRET:
+            logging.warn("Someone trying to access the API directly.")
+            self._error(status=404)
+            return
+
         header_key = 'X-Real-IP'
         ip_address = header_key in self.request.headers and self.request.headers[header_key] or self.request.remote_ip
         #logging.info("HEADERS: %s" % self.request.headers)
@@ -32,6 +38,6 @@ class GeoHandler(BaseHandler):
             self.render_response(dumps(geo.as_dict()))
         else:
             logging.info('IP address: %s NOT FOUND' % ip_address)
-            self.render_response('')
+            self.render_response('null')
 
         self.finish()
