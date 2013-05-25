@@ -25,7 +25,7 @@ class GeoHandler(BaseHandler):
 
         header_key = 'X-Real-IP'
         ip_address = header_key in self.request.headers and self.request.headers[header_key] or self.request.remote_ip
-        #logging.info("HEADERS: %s" % self.request.headers)
+        logging.info("HEADERS: %s" % self.request.headers)
 
         ip_address = self.get_argument('ip', ip_address)
         ip_address = ip_address
@@ -38,6 +38,6 @@ class GeoHandler(BaseHandler):
             self.render_response(dumps(geo.as_dict()))
         else:
             logging.info('IP address: %s NOT FOUND' % ip_address)
-            self.render_response('null')
+            self.render_response('''{ ip: '%s' }''' % ip_address)
 
         self.finish()
