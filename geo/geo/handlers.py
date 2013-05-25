@@ -16,10 +16,10 @@ class BaseHandler(tornado.web.RequestHandler):
         self.finish()
 
     def render_response(self, response):
-        callback = self.get_arguments('callback', None)
+        callback = self.get_argument('callback', None)
 
         if callback:
-            self.write('%s(%s)' % (callback[0], response))
+            self.write('%s(%s)' % (callback, response))
         else:
             self.write(response)
 
