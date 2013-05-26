@@ -25,9 +25,9 @@ class LocationHandler(BaseHandler):
 
         latitude = float(self.get_argument('lat'))
         longitude = float(self.get_argument('long'))
-        tolerance = float(self.get_argument('tolerance', 500))
+        radius = float(self.get_argument('radius', 10))
 
-        tolerance = ONE_MINUTE_LENGTH * tolerance / 1000
+        radius = ONE_MINUTE_LENGTH * radius / 1000
 
         language = self.get_argument('language', 'en')
 
@@ -48,7 +48,7 @@ class LocationHandler(BaseHandler):
         """ % {
             'latitude': latitude,
             'longitude': longitude,
-            'tolerance': tolerance,
+            'tolerance': radius,
             'language': language
         })
 
