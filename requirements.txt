@@ -2,3 +2,4 @@ derpconf
 tornado
 raven
 ujson
+pycurl
