@@ -44,7 +44,7 @@ class GeoApp(tornado.web.Application):
         handlers = [
             (r'/healthcheck(?:/|\.html)?', HealthCheckHandler),
             (r'/?', GeoHandler, {'geo_db_contents': geo_db_content}),
-            (r'/locations', LocationHandler),
+            (r'/locations/?', LocationHandler),
         ]
 
         options = {}
