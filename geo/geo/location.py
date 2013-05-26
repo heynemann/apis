@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import urllib
+import logging
 
 from ujson import loads, dumps
 import tornado.web
@@ -16,11 +17,11 @@ class LocationHandler(BaseHandler):
 
     @tornado.web.asynchronous
     def get(self):
-        #secret = self.request.headers.get('X-Mashape-Proxy-Secret', None)
-        #if not secret or secret != self.application.config.MASHAPE_SECRET:
-            #logging.warn("Someone trying to access the API directly.")
-            #self._error(status=404)
-            #return
+        secret = self.request.headers.get('X-Mashape-Proxy-Secret', None)
+        if not self.application.config.LOCAL and not secret or secret != self.application.config.MASHAPE_SECRET:
+            logging.warn("Someone trying to access the API directly.")
+            self._error(status=404)
+            return
 
         latitude = float(self.get_argument('lat'))
         longitude = float(self.get_argument('long'))
