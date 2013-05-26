@@ -36,6 +36,8 @@ geo is an api to find geolocation information
         'derpconf',
         'tornado',
         'raven',
+        'pycurl',
+        'ujson'
     ],
     extras_require={
         'tests': tests_require,

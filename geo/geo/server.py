@@ -7,6 +7,7 @@ import logging
 
 import tornado.ioloop
 from tornado.httpserver import HTTPServer
+import tornado.httpclient as httpclient
 
 from geo.app import GeoApp
 
@@ -35,7 +36,10 @@ def run_app(args=None):
 
     main_loop = tornado.ioloop.IOLoop.instance()
 
-    application = GeoApp(options.conf, main_loop=main_loop)
+    if hasattr(httpclient.AsyncHTTPClient, 'configure'):
+        httpclient.AsyncHTTPClient.configure('tornado.curl_httpclient.CurlAsyncHTTPClient')
+
+    application = GeoApp(options.conf, debug=options.debug, main_loop=main_loop)
 
     try:
         application.initialize()

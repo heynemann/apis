@@ -4,6 +4,7 @@ geo/config.py
 geo/geolocation.py
 geo/handlers.py
 geo/healthcheck.py
+geo/location.py
 geo/models.py
 geo/server.py
 geo/utils.py

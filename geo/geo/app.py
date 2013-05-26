@@ -15,10 +15,11 @@ from geo.utils import FakeSentry, get_modules
 from geo import __version__
 from geo.healthcheck import HealthCheckHandler
 from geo.geolocation import GeoHandler
+from geo.location import LocationHandler
 
 
 class GeoApp(tornado.web.Application):
-    def __init__(self, conf_file=None, main_loop=None):
+    def __init__(self, conf_file=None, main_loop=None, debug=False):
         lookup_paths = [
             os.curdir,
             expanduser('~'),
@@ -33,6 +34,7 @@ class GeoApp(tornado.web.Application):
             self.sentry = FakeSentry(self.config.SENTRY_DSN_URL)
 
         self.modules = get_modules()
+        self.debug = debug
 
     def initialize(self):
         geo_db_content = None
@@ -42,9 +44,14 @@ class GeoApp(tornado.web.Application):
         handlers = [
             (r'/healthcheck(?:/|\.html)?', HealthCheckHandler),
             (r'/?', GeoHandler, {'geo_db_contents': geo_db_content}),
+            (r'/locations', LocationHandler),
         ]
 
-        super(GeoApp, self).__init__(handlers)
+        options = {}
+        if self.debug:
+            options['debug'] = True
+
+        super(GeoApp, self).__init__(handlers, **options)
 
     def report_error(self):
         try:
