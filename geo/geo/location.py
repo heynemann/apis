@@ -25,7 +25,10 @@ class LocationHandler(BaseHandler):
 
         latitude = float(self.get_argument('lat'))
         longitude = float(self.get_argument('long'))
-        tolerance = float(self.get_argument('tolerance', ONE_MINUTE_LENGTH / 2))
+        tolerance = float(self.get_argument('tolerance', 500))
+
+        tolerance = ONE_MINUTE_LENGTH * tolerance / 1000
+
         language = self.get_argument('language', 'en')
 
         self.set_header('Content-Type', 'text/javascript')
@@ -37,8 +40,8 @@ class LocationHandler(BaseHandler):
             ?subject geo:long ?long.
             ?subject rdfs:label ?label.
             FILTER(
-                ?lat - (%(latitude).2f) <= %(tolerance).4f && (%(latitude).2f) - ?lat <= %(tolerance).4f &&
-                ?long - (%(longitude).2f) <= %(tolerance).4f && (%(longitude).2f) - ?long <= %(tolerance).4f &&
+                ?lat - (%(latitude).8f) <= %(tolerance).4f && (%(latitude).8f) - ?lat <= %(tolerance).4f &&
+                ?long - (%(longitude).8f) <= %(tolerance).4f && (%(longitude).8f) - ?long <= %(tolerance).4f &&
                 lang(?label) = "%(language)s"
             )
             } LIMIT 20
