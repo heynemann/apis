@@ -18,16 +18,16 @@ class LocationHandler(BaseHandler):
     @tornado.web.asynchronous
     def get(self):
         secret = self.request.headers.get('X-Mashape-Proxy-Secret', None)
-        if not self.application.config.LOCAL and (not secret or secret != self.application.config.MASHAPE_SECRET):
+        if not self.application.config.LOCAL and (not secret or secret != self.application.config.MASHAPE_LOCATIONS_SECRET):
             logging.warn("Someone trying to access the API directly.")
             self._error(status=404)
             return
 
         latitude = float(self.get_argument('lat'))
         longitude = float(self.get_argument('long'))
-        radius = float(self.get_argument('radius', 10))
+        radius = float(self.get_argument('radius', 50))
 
-        radius = ONE_MINUTE_LENGTH * radius / 1000
+        radius = radius / 1000 / ONE_MINUTE_LENGTH
 
         language = self.get_argument('language', 'en')
 
@@ -40,8 +40,8 @@ class LocationHandler(BaseHandler):
             ?subject geo:long ?long.
             ?subject rdfs:label ?label.
             FILTER(
-                ?lat - (%(latitude).8f) <= %(tolerance).4f && (%(latitude).8f) - ?lat <= %(tolerance).4f &&
-                ?long - (%(longitude).8f) <= %(tolerance).4f && (%(longitude).8f) - ?long <= %(tolerance).4f &&
+                ?lat - (%(latitude).8f) <= %(tolerance).8f && (%(latitude).8f) - ?lat <= %(tolerance).8f &&
+                ?long - (%(longitude).8f) <= %(tolerance).8f && (%(longitude).8f) - ?long <= %(tolerance).8f &&
                 lang(?label) = "%(language)s"
             )
             } LIMIT 20
@@ -73,8 +73,8 @@ class LocationHandler(BaseHandler):
             for result in results['results']['bindings']:
                 items.append({
                     'label': result['label']['value'],
-                    'longitude': result['long']['value'],
-                    'latitude': result['lat']['value']
+                    'longitude': float(result['long']['value']),
+                    'latitude': float(result['lat']['value'])
                 })
 
             self.render_response(dumps(items))
