@@ -19,7 +19,7 @@ class LocationHandler(BaseHandler):
     def get(self):
         secret = self.request.headers.get('X-Mashape-Proxy-Secret', None)
         if not self.application.config.LOCAL and (not secret or secret != self.application.config.MASHAPE_LOCATIONS_SECRET):
-            logging.warn("Someone trying to access the API directly.")
+            logging.warn("Someone trying to access the API directly (secret passed in: %s)." % secret)
             self._error(status=404)
             return
 
